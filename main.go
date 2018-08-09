@@ -20,16 +20,16 @@ const (
 
 var retryCount uint
 var timeout time.Duration
-var requestUrl string
+var serverAddr string
 
 func init() {
 	flag.UintVar(&retryCount, "retry", defaultRetryCount, "Retry count of request")
 	flag.DurationVar(&timeout, "timeout", defaultTimeout*time.Second, "Request timeout")
-	flag.StringVar(&requestUrl, "url", "", "URL to request")
+	flag.StringVar(&serverAddr, "addr", "", "The server address in the format of host:port")
 }
 
-func sendManualStartRequest(url string, timeout time.Duration, retryCount uint) {
-	conn, err := grpc.Dial(url, grpc.WithInsecure())
+func sendManualStartRequest(addr string, timeout time.Duration, retryCount uint) {
+	conn, err := grpc.Dial(addr, grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("connection failed: %v", err)
 	}
@@ -51,10 +51,10 @@ func sendManualStartRequest(url string, timeout time.Duration, retryCount uint) 
 func main() {
 	flag.Parse()
 
-	if requestUrl == "" {
-		fmt.Fprintln(os.Stderr, "-url must be specified")
+	if serverAddr == "" {
+		fmt.Fprintln(os.Stderr, "-addr must be specified")
 		flag.Usage()
 	}
 
-	sendManualStartRequest(requestUrl, timeout, retryCount)
+	sendManualStartRequest(serverAddr, timeout, retryCount)
 }

@@ -15,12 +15,12 @@ $ dep ensure
 ```
 $ partiarelic-client --help
 Usage of partiarelic-client:
+  -addr string
+        The server address in the format of host:port
   -retry uint
         Retry count of request (default 3)
   -timeout duration
         Request timeout (default 1s)
-  -url string
-        URL to request
 ```
 
 ## Release
