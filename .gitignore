@@ -10,3 +10,9 @@
 
 # Output of the go coverage tool, specifically when used with LiteIDE
 *.out
+
+vendor/
+partiarelic-client
+
+# for gorelease
+dist/
