@@ -1,6 +1,6 @@
 # partiarelic-client
 
-A client app for [wata-gh/partiarelic](https://github.com/wata-gh/partiarelic).
+A gRPC client for [wata-gh/partiarelic](https://github.com/wata-gh/partiarelic).
 
 ## Development
 
