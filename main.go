@@ -21,14 +21,20 @@ const (
 var retryCount uint
 var timeout time.Duration
 var serverAddr string
+var verbose bool
 
 func init() {
 	flag.UintVar(&retryCount, "retry", defaultRetryCount, "Retry count of request")
 	flag.DurationVar(&timeout, "timeout", defaultTimeout*time.Second, "Request timeout")
 	flag.StringVar(&serverAddr, "addr", "", "The server address in the format of host:port")
+	flag.BoolVar(&verbose, "verbose", false, "verbose mode")
 }
 
 func sendManualStartRequest(addr string, timeout time.Duration, retryCount uint) {
+	if verbose {
+		log.Printf("Connecting %s", addr)
+	}
+
 	conn, err := grpc.Dial(addr, grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("connection failed: %v", err)
@@ -39,6 +45,9 @@ func sendManualStartRequest(addr string, timeout time.Duration, retryCount uint)
 	ctx, cancel := context.WithTimeout(context.Background(), timeout)
 	defer cancel()
 
+	if verbose {
+		log.Printf("Requesting ManualStartRequest to %s", addr)
+	}
 	_, err = c.ManualStart(ctx, &pb.ManualStartRequest{}, grpc_retry.WithMax(retryCount))
 	if err != nil {
 		log.Fatalf("ManualStartRequest failed: %v", err)
